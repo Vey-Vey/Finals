@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background-image: url('https://drive.google.com/thumbnail?id=1TbF1PshEh9Pj7c00NILZJh-SEkNkZfJc&sz=w1920');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    .page{display: none;}
+
+    #fantasy{display: block;}
+    #book1:target,
+    #book2:target,
+    #book3:target,
+    #book4:target,
+    #book5:target { display: block; }
+
+    #book1:target ~ #fantasy,
+    #book2:target ~ #fantasy,
+    #book3:target ~ #fantasy,
+    #book4:target ~ #fantasy,
+    #book5:target ~ #fantasy { display: none; }
+
+    #listen1:target,
+    #listen2:target,
+    #listen3:target,
+    #listen4:target,
+    #listen5:target { display: block; }
+
+    #listen1:target ~ #fantasy,
+    #listen2:target ~ #fantasy,
+    #listen3:target ~ #fantasy,
+    #listen4:target ~ #fantasy,
+    #listen5:target ~ #fantasy { display: none; }
+
+    nav {
+      background: rgba(101, 67, 20, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 52px;
+      border-bottom: 1px solid rgba(255, 220, 140, 0.15);
+      position: relative;
+    }
+
+    nav .brand {
+      font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, cursive;
+      font-size: 24px;
+      color: #ffe8a0;
+      text-decoration: none;
+    }
+
+    nav .links { display: flex; gap: 4px; position: absolute; left: 50%; transform: translateX(-50%); }
+
+    nav .links a {
+      color: rgba(255, 220, 150, 0.65);
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav .links a:hover { background: rgba(255, 210, 100, 0.12); color: #ffe8a0; }
+    nav .links a.active { background: rgba(255, 210, 100, 0.18); color: #ffe8a0; }
+
+    header {
+      padding: 36px 40px 10px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, cursive;
+      font-size: 50px;
+      font-weight: bold;
+      color: #f5d78e;
+      text-shadow: 5px 6px 11px rgba(180, 110, 0, 0.75);
+    }
+
+    .scroll-row {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px 40px 30px;
+      align-items: center;
+    }
+
+    .book-listen {
+      flex-direction: column;
+      width: 900px;
+      height: 500px;
+      margin: 0 auto;
+      display: flex;
+      background: rgba(193, 142, 60, 0.9);
+      border-radius: 90px;
+      overflow: hidden;
+      border: 10px solid rgba(153, 109, 43, 0.25);
+      margin-bottom: 200px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+     .book-listen .audio {
+      margin-left: 235px;
+    }
+
+    .book-listen:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(180, 120, 0, 0.6);
+    }
+
+    .book-listen img {
+      width: 200px;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+      margin-left: 325px;
+      margin-top: 10px;
+      border-radius: 25px;
+    }
+
+    .book-listen .in {
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .btn-backlist {
+      background: rgba(80, 45, 5, 0.9);
+      color: #ffe8a0;
+      border: 1px solid rgba(220, 170, 60, 0.3);
+      margin-right: 370px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .book-read {
+      flex-direction: column;
+      width: 900px;
+      height: 500px;
+      margin: 0 auto;
+      display: flex;
+      background: rgba(193, 142, 60, 0.9);
+      border-radius: 90px;
+      overflow: hidden;
+      border: 10px solid rgba(153, 109, 43, 0.25);
+      margin-bottom: 200px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .book-read:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(180, 120, 0, 0.6);
+    }
+
+    .book-read .pre {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, cursive;
+    overflow-y: auto;
+    white-space: normal;
+    text-align: left; 
+    padding: 20px 40px;
+    margin-top: 20px;
+    color: #563803;
+    }
+
+    .btn-back {
+      background: rgba(80, 45, 5, 0.9);
+      color: #ffe8a0;
+      border: 1px solid rgba(220, 170, 60, 0.3);
+      margin-right: 400px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .book-card {
+      font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, cursive;
+      flex-shrink: 0;
+      width: 900px;
+      display: flex;
+      background: rgba(193, 142, 60, 0.45);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(120, 80, 20, 0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(180, 120, 0, 0.6);
+    }
+
+    .book-card img {
+      width: 200px;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .book-card .info {
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .book-card .text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .book-card .title {
+      color: #ebc56e;
+      font-size: 27px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .book-card .author {
+      color: rgba(255, 235, 170, 0.65);
+      font-size: 20px;
+    }
+
+    .book-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .book-buttons a {
+      padding: 10px 28px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .book-buttons a:hover { opacity: 0.8; }
+
+    .btn-read {
+      background: rgba(80, 45, 5, 0.9);
+      color: #ffe8a0;
+      border: 1px solid rgba(220, 170, 60, 0.3);
+    }
+
+    .btn-listen {
+      background: rgba(140, 95, 10, 0.55);
+      color: #f5c842;
+      border: 1px solid rgba(220, 160, 30, 0.4);
+    }
+
+    footer {
+      background: rgba(101, 67, 20, 0.95);
+      backdrop-filter: blur(6px);
+      color: #d4a84b;
+      border-top: 1px solid rgba(255, 210, 100, 0.15);
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 14px 40px;
+      margin-top: auto;
+
+    }
+
+    footer .col { font-size: 12px; line-height: 1.7; }
+
+    footer .col strong {
+      display: block;
+      color: #ffe8a0;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      opacity: 0.7;
+    }
+
+     /* TABLET */
+  @media (min-width: 600px) and (max-width: 1023px) {
+
+  nav {
+    padding: 12px 20px;
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  nav .links {
+    position: static;
+    transform: none;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-size: 38px;
+  }
+
+  .book-card {
+    width: 95%;
+    max-width: 700px;
+  }
+
+  .book-card img {
+    width: 180px;
+    height: 250px;
+  }
+
+  .book-card .info {
+    padding: 25px;
+  }
+
+  .book-read {
+    width: 95%;
+    max-width: 700px;
+    height: auto;
+    min-height: 500px;
+    margin: 20px auto;
+    border-radius: 40px;
+  }
+
+  .book-read .pre {
+    font-size: 18px;
+    padding: 25px;
+  }
+
+  .btn-back {
+    margin: 20px auto;
+  }
+
+  footer {
+    gap: 40px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+ .book-listen {
+    width: 95%;
+    max-width: 750px;
+    height: auto;
+    min-height: 400px;
+    margin: 20px auto;
+    border-radius: 40px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-listen img {
+    width: 160px;
+    height: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+  }
+
+  .book-listen .in {
+    width: 100%;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .book-listen .audio {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .book-listen .audio audio {
+    width: 100%;
+  }
+
+  .btn-backlist {
+    margin: 20px auto;
+    margin-right: auto;
+    display: block;
+  }
+
+}
+
+/* LAPTOP */
+  @media (min-width: 1024px) {
+    .book-card img { width: 200px; height: 280px; }
+    .book-card .info { padding: 30px 40px; }
+    .book-read { height: 500px; border-radius: 90px; }
+    footer { gap: 80px; }
+  }
+
+    /* MOBILE ONLY */
+  @media (max-width: 599px) {
+
+   nav {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  nav .links {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  nav .links a {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  header h1 {
+    font-size: 28px;
+  }
+
+  .book-card {
+    width: 95%;
+    flex-direction: column;
+  }
+
+  .book-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .book-card .info {
+    padding: 20px;
+  }
+
+  .book-read {
+    width: 95%;
+    height: auto;
+    min-height: 400px;
+    border-radius: 20px;
+    margin: 20px auto;
+  }
+
+  .book-read .pre {
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  .btn-back {
+    margin: 15px auto;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .book-listen {
+  width: 95%;
+    height: auto;
+    min-height: 400px;
+    border-radius: 20px;
+    margin: 20px auto;
+}
+
+.book-listen img {
+  width: 130px;
+  height: 180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book-listen .audio {
+  margin-left: 0;
+  text-align: center;
+}
+
+.btn-backlist {
+  margin: 15px auto;
+}
+
+}
+
+    @keyframes fadeout {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+    }
+    .sparkle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #ffb700bf;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fadeout 0.8s linear forwards;
+    z-index: 9999;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://vey-vey.github.io/Finals/main_menu.html" class="brand">NookBook</a>
+    <div class="links">
+      <a href="https://vey-vey.github.io/Finals/main_menu.html">Home</a>
+      <a href="https://vey-vey.github.io/Finals/hor_genre.html">Horror</a>
+      <a href="https://vey-vey.github.io/Finals/fantacy_genre.html" class="active">Fantasy</a>
+      <a href="https://vey-vey.github.io/Finals/fab_gen.html">Fables</a>
+      <a href="https://vey-vey.github.io/Finals/cla_gen.html">Classics</a>
+    </div>
+  </nav>
+
+
+  <div id="listen1" class="page">
+    <header>
+    <h1>THE STRAW, THE COAL, AND THE BEAN</h1>
+    </header>
+    <div class="book-listen">
+      <img src="https://drive.google.com/thumbnail?id=125H8RtcexXYkQsvlBs6fMVsyQ6vF8c8d" alt="book1">
+      <div class="in">
+          <div class="audio">
+            <audio controls>
+              <source src="https://raw.githubusercontent.com/Vey-Vey/Finals/main/audiof1.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        <div class="book-buttons">
+          <a href="#" class="btn-backlist">Back</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="listen2" class="page">
+    <header>
+    <h1>LITTLE RED-CAP<br>[LITTLE RED RIDING HOOD]</h1>
+    </header>
+    <div class="book-listen">
+      <img src="https://drive.google.com/thumbnail?id=1P9Gq1o_3VjGlUFM55KvpP-yHvkjIXYym" alt="book1">
+      <div class="in">
+          <div class="audio">
+            <audio controls>
+              <source src="https://raw.githubusercontent.com/Vey-Vey/Finals/main/audiof2.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        <div class="book-buttons">
+          <a href="#" class="btn-backlist">Back</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="listen3" class="page">
+    <header>
+    <h1>Rapunzel</h1>
+    </header>
+    <div class="book-listen">
+      <img src="https://drive.google.com/thumbnail?id=132UH-Ccs-a0kABj8IC4v2TllYtlNtCq2" alt="book1">
+      <div class="in">
+          <div class="audio">
+            <audio controls>
+              <source src="https://raw.githubusercontent.com/Vey-Vey/Finals/main/audiof3.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        <div class="book-buttons">
+          <a href="#" class="btn-backlist">Back</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="listen4" class="page">
+    <header>
+    <h1>The Selfish Giant</h1>
+    </header>
+    <div class="book-listen">
+      <img src="https://drive.google.com/thumbnail?id=1psYJDsLP7dM5b80-EsNDcIuDNjbVsxKM" alt="book1">
+      <div class="in">
+          <div class="audio">
+            <audio controls>
+              <source src="https://raw.githubusercontent.com/Vey-Vey/Finals/main/audiof4.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        <div class="book-buttons">
+          <a href="#" class="btn-backlist">Back</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="listen5" class="page">
+    <header>
+    <h1>The Nightingale and the Rose</h1>
+    </header>
+    <div class="book-listen">
+      <img src="https://drive.google.com/thumbnail?id=1EKs4myQoDa4QE5MEyKZ2k38xbRgayW-H" alt="book1">
+      <div class="in">
+          <div class="audio">
+            <audio controls>
+              <source src="https://raw.githubusercontent.com/Vey-Vey/Finals/main/audiof5.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        <div class="book-buttons">
+          <a href="#" class="btn-backlist">Back</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+  
+  <div id="book1" class="page">
+    <header>
+    <h1>THE STRAW, THE COAL, AND THE BEAN</h1>
+    </header>
+  <div class="book-read">
+  <div class="pre">
+    <p>
+    In a village dwelt a poor old woman, who had gathered together a dish of beans and wanted to cook them.
+    So she made a fire on her hearth, and that it might burn the quicker, she lighted it with a handful of straw. 
+    When she was emptying the beans into the pan, one dropped without her observing it, and lay on the ground beside a straw, 
+    and soon afterwards a burning coal from the fire leapt down to the two. Then the straw began and said: ‘Dear friends, 
+    from whence do you come here?’ The coal replied: ‘I fortunately sprang out of the fire, and if I had not escaped by sheer 
+    force, my death would have been certain,—I should have been burnt to ashes.’ The bean said: ‘I too have escaped with a whole 
+    skin, but if the old woman had got me into the pan, I should have been made into broth without any mercy, like my comrades.’
+    ‘And would a better fate have fallen to my lot?’ said the straw. ‘The old woman has destroyed all my brethren in fire and smoke; 
+    she seized sixty of them at once, and took their lives. I luckily slipped through her fingers.’<br><br>
+
+    ‘But what are we to do now?’ said the coal.<br><br>
+
+    ‘I think,’ answered the bean, ‘that as we have so fortunately escaped death, we should keep together like good companions, 
+    and lest a new mischance should overtake us here, we should go away together, and repair to a foreign country.’<br><br>
+
+    The proposition pleased the two others, and they set out on their way together. Soon, however, they came to a little brook, 
+    and as there was no bridge or foot-plank, they did not know how they were to get over it. The straw hit on a good idea, and said: 
+    ‘I will lay myself straight across, and then you can walk over on me as on a bridge.’ The straw therefore stretched itself from one 
+    bank to the other, and the coal, who was of an impetuous disposition, tripped quite boldly on to the newly-built bridge. But when she 
+    had reached the middle, and heard the water rushing beneath her, she was after all, afraid, and stood still, and ventured no farther. 
+    The straw, however, began to burn, broke in two pieces, and fell into the stream. The coal slipped after her, hissed when she got into 
+    the water, and breathed her last. The bean, who had prudently stayed behind on the shore, could not but laugh at the event, was unable to stop, 
+    and laughed so heartily that she burst. It would have been all over with her, likewise, if, by good fortune, a tailor who was 
+    travelling in search of work, had not sat down to rest by the brook. As he had a compassionate heart he pulled out his needle and 
+    thread, and sewed her together. The bean thanked him most prettily, but as the tailor used black thread, all beans since then 
+    have a black seam.
+    </p>
+  </div>
+  <div class="book-buttons">
+    <a href="#" class="btn-back">Back</a>
+  </div>
+  </div>
+  </div>
+
+  <div id="book2" class="page">
+    <header>
+    <h1>LITTLE RED-CAP [LITTLE RED RIDING HOOD]</h1>
+    </header>
+  <div class="book-read">
+    <div class="pre">
+      <p>
+        Once upon a time there was a dear little girl who was loved by everyone who looked at 
+        her, but most of all by her grandmother, and there was nothing that she would not have 
+        given to the child. Once she gave her a little cap of red velvet, which suited her so 
+        well that she would never wear anything else; so she was always called ‘Little Red-Cap.’
+        One day her mother said to her: ‘Come, Little Red-Cap, here is a piece of cake and a 
+        bottle of wine; take them to your grandmother, she is ill and weak, and they will do 
+        her good. Set out before it gets hot, and when you are going, walk nicely and quietly 
+        and do not run off the path, or you may fall and break the bottle, and then your grandmother 
+        will get nothing; and when you go into her room, don’t forget to say, “Good morning”, 
+        and don’t peep into every corner before you do it.’
+        ‘I will take great care,’ said Little Red-Cap to her mother, and gave her hand on it.
+        The grandmother lived out in the wood, half a league from the village, and just as 
+        Little Red-Cap entered the wood, a wolf met her. Red-Cap did not know what a wicked 
+        creature he was, and was not at all afraid of him. <br><br>
+
+        ‘Good day, Little Red-Cap,’ said he.
+        ‘Thank you kindly, wolf.’
+        ‘Whither away so early, Little Red-Cap?’
+        ‘To my grandmother’s.’
+        ‘What have you got in your apron?’
+        ‘Cake and wine; yesterday was baking-day, so poor sick grandmother is to have 
+        something good, to make her stronger.’
+        ‘Where does your grandmother live, Little Red-Cap?’
+        ‘A good quarter of a league farther on in the wood; her house stands under the 
+        three large oak-trees, the nut-trees 
+        are just below; you surely must know it,’ replied Little Red-Cap. <br><br>
+
+        The wolf thought to himself: ‘What a tender young creature! what a nice plump 
+        mouthful—she will be better to eat than the old woman. I must act craftily, 
+        so as to catch both.’ So he walked for a short time by the side of Little Red-Cap, 
+        and then he said: ‘See, Little Red-Cap, how pretty the flowers are about here—why 
+        do you not look round? I believe, too, that you do not hear how sweetly the little 
+        birds are singing; you walk gravely along as if you were going to school, while 
+        everything else out here in the wood is merry.’
+        Little Red-Cap raised her eyes, and when she saw the sunbeams dancing here and 
+        there through the trees, and pretty flowers growing everywhere, she thought: 
+        ‘Suppose I take grandmother a fresh nosegay; that would please her too. It is 
+        so early in the day that I shall still get there in good time’; and so she ran 
+        from the path into the wood to look for flowers. And whenever she had picked one, 
+        she fancied that she saw a still prettier one farther on, and ran after it, and 
+        so got deeper and deeper into the wood.
+        Meanwhile the wolf ran straight to the grandmother’s house and knocked at the door. <br><br>
+
+        ‘Who is there?’
+        ‘Little Red-Cap,’ replied the wolf. ‘She is bringing cake and wine; open the door.’
+        ‘Lift the latch,’ called out the grandmother, ‘I am too weak, and cannot get up.’ <br><br>
+
+        The wolf lifted the latch, the door sprang open, and without saying a word he 
+        went straight to the grandmother’s bed, and devoured her. Then he put on her clothes, 
+        dressed himself in her cap laid himself in bed and drew the curtains.
+        Little Red-Cap, however, had been running about picking flowers, and when she 
+        had gathered so many that she could carry no more, she remembered her grandmother, 
+        and set out on the way to her.
+        She was surprised to find the cottage-door standing open, and when she went into 
+        the room, she had such a strange feeling that she said to herself: ‘Oh dear! how 
+        uneasy I feel today, and at other times I like being with grandmother so much.’ 
+        She called out: ‘Good morning,’ but received no answer; so she went to the bed and 
+        drew back the curtains. There lay her grandmother with her cap pulled far over her 
+        face, and looking very strange. <br><br>
+
+        ‘Oh! grandmother,’ she said, ‘what big ears you have!’
+        ‘The better to hear you with, my child,’ was the reply.
+        ‘But, grandmother, what big eyes you have!’ she said.
+        ‘The better to see you with, my dear.’
+        ‘But, grandmother, what large hands you have!’
+        ‘The better to hug you with.’
+        ‘Oh! but, grandmother, what a terrible big mouth you have!’
+        ‘The better to eat you with!’ <br><br>
+
+        And scarcely had the wolf said this, than with one bound he was out of bed and 
+        swallowed up Red-Cap.
+        When the wolf had appeased his appetite, he lay down again in the bed, fell 
+        asleep and began to snore very loud. The huntsman was just passing the house, 
+        and thought to himself: ‘How the old woman is snoring! I must just see if she 
+        wants anything.’ So he went into the room, and when he came to the bed, he saw 
+        that the wolf was lying in it. ‘Do I find you here, you old sinner!’ said he. 
+        ‘I have long sought you!’ Then just as he was going to fire at him, it occurred 
+        to him that the wolf might have devoured the grandmother, and that she might still 
+        be saved, so he did not fire, but took a pair of scissors, and began to cut open 
+        the stomach of the sleeping wolf. When he had made two snips, he saw the little 
+        Red-Cap shining, and then he made two snips more, and the little girl sprang out, 
+        crying: ‘Ah, how frightened I have been! How dark it was inside the wolf’; and 
+        after that the aged grandmother came out alive also, but scarcely able to breathe. 
+        Red-Cap, however, quickly fetched great stones with which they filled the wolf’s 
+        belly, and when he awoke, he wanted to run away, but the stones were so heavy that 
+        he collapsed at once, and fell dead. <br><br>
+
+
+        Then all three were delighted. The huntsman drew off the wolf’s skin and went home 
+        with it; the grandmother ate the cake and drank the wine which Red-Cap had brought, 
+        and revived, but Red-Cap thought to herself: ‘As long as I live, I will never by 
+        myself leave the path, to run into the wood, when my mother has forbidden me to do so.’
+        It also related that once when Red-Cap was again taking cakes to the old grandmother, 
+        another wolf spoke to her, and tried to entice her from the path. Red-Cap, however, 
+        was on her guard, and went straight forward on her way, and told her grandmother that 
+        she had met the wolf, and that he had said ‘good morning’ to her, but with such a wicked 
+        look in his eyes, that if they had not been on the public road she was certain he would 
+        have eaten her up. ‘Well,’ said the grandmother, ‘we will shut the door, that he may not 
+        come in.’ Soon afterwards the wolf knocked, and cried: ‘Open the door, grandmother, 
+        I am Little Red-Cap, and am bringing you some cakes.’ But they did not speak, or open 
+        the door, so the grey-beard stole twice or thrice round the house, and at last jumped 
+        on the roof, intending to wait until Red-Cap went home in the evening, and then to steal 
+        after her and devour her in the darkness. But the grandmother saw what was in his thoughts. <br><br>
+
+
+        In front of the house was a great stone trough, so she said to the child: ‘Take the pail, 
+        Red-Cap; I made some sausages yesterday, so carry the water in which I boiled them to the trough.’ 
+        Red-Cap carried until the great trough was quite full. Then the smell of the sausages reached the wolf,
+         and he sniffed and peeped down, and at last stretched out his neck so far that he could no longer keep 
+         his footing and began to slip, and slipped down from the roof straight into the great trough, 
+         and was drowned. But Red-Cap went joyously home, and no one ever did anything to harm her again.
+      </p>
+    </div>
+  <div class="book-buttons">
+    <a href="#" class="btn-back">Back</a>
+  </div>
+  </div>
+  </div>
+
+  <div id="book3" class="page">
+    <header>
+      <h1>Rapunzel</h1>
+    </header>
+  <div class="book-read">
+    <div class="pre">
+      <p>There were once a man and a woman who had long in vain wished for a child. 
+        At length the woman hoped that God was about to grant her desire. These people 
+        had a little window at the back of their house from which a splendid garden could 
+        be seen, which was full of the most beautiful flowers and herbs. It was, however, 
+        surrounded by a high wall, and no one dared to go into it because it belonged to an 
+        enchantress, who had great power and was dreaded by all the world. One day the woman 
+        was standing by this window and looking down into the garden, when she saw a bed which 
+        was planted with the most beautiful rampion (rapunzel), and it looked so fresh and 
+        green that she longed for it, she quite pined away, and began to look pale and miserable. 
+        Then her husband was alarmed, and asked: ‘What ails you, dear wife?’ ‘Ah,’ she replied, 
+        ‘if I can’t eat some of the rampion, which is in the garden behind our house, I shall die.’ 
+        The man, who loved her, thought: ‘Sooner than let your wife die, bring her some of the 
+        rampion yourself, let it cost what it will.’ At twilight, he clambered down over the 
+        wall into the garden of the enchantress, hastily clutched a handful of rampion, and 
+        took it to his wife. She at once made herself a salad of it, and ate it greedily. <br><br>
+        
+        It tasted so good to her—so very good, that the next day she longed for it three times as 
+        much as before. If he was to have any rest, her husband must once more descend into the 
+        garden. In the gloom of evening therefore, he let himself down again; but when he had 
+        clambered down the wall he was terribly afraid, for he saw the enchantress standing before him. 
+        ‘How can you dare,’ said she with angry look, ‘descend into my garden and steal my rampion 
+        like a thief? You shall suffer for it!’ ‘Ah,’ answered he, ‘let mercy take the place of justice, 
+        I only made up my mind to do it out of necessity. My wife saw your rampion from the window, and 
+        felt such a longing for it that she would have died if she had not got some to eat.’ Then the 
+        enchantress allowed her anger to be softened, and said to him: ‘If the case be as you say, 
+        I will allow you to take away with you as much rampion as you will, only I make one condition, 
+        you must give me the child which your wife will bring into the world; it shall be well treated, 
+        and I will care for it like a mother.’ The man in his terror consented to everything, and when 
+        the woman was brought to bed, the enchantress appeared at once, gave the child the name of Rapunzel, 
+        and took it away with her. <br><br>
+
+        Rapunzel grew into the most beautiful child under the sun. When she was twelve years old, the enchantress 
+        shut her into a tower, which lay in a forest, and had neither stairs nor door, but quite at the top was a 
+        little window. When the enchantress wanted to go in, she placed herself beneath it and cried: <br><br>
+
+        ‘Rapunzel, Rapunzel,
+        Let down your hair to me.’
+        Rapunzel had magnificent long hair, fine as spun gold, and when she heard the voice of the enchantress 
+        she unfastened her braided tresses, wound them round one of the hooks of the window above, and then the 
+        hair fell twenty ells down, and the enchantress climbed up by it. <br><br>
+
+        After a year or two, it came to pass that the king’s son rode through the forest and passed by the tower. 
+        Then he heard a song, which was so charming that he stood still and listened. This was Rapunzel, who in 
+        her solitude passed her time in letting her sweet voice resound. The king’s son wanted to climb up to her, 
+        and looked for the door of the tower, but none was to be found. He rode home, but the singing had so deeply 
+        touched his heart, that every day he went out into the forest and listened to it. Once when he was 
+        thus standing behind a tree, he saw that an enchantress came there, and he heard how she cried: <br><br>
+
+        ‘Rapunzel, Rapunzel,
+        Let down your hair to me.’
+        Then Rapunzel let down the braids of her hair, and the enchantress climbed up to her. 
+        ‘If that is the ladder by which one mounts, I too will try my fortune,’ said he, and the next 
+        day when it began to grow dark, he went to the tower and cried: <br><br>
+
+        ‘Rapunzel, Rapunzel,
+        Let down your hair to me.’ <br><br>
+
+        Immediately the hair fell down and the king’s son climbed up.
+        At first Rapunzel was terribly frightened when a man, such as her eyes had never yet beheld, 
+        came to her; but the king’s son began to talk to her quite like a friend, and told her that 
+        his heart had been so stirred that it had let him have no rest, and he had been forced to see her. 
+        Then Rapunzel lost her fear, and when he asked her if she would take him for her husband, 
+        and she saw that he was young and handsome, she thought: ‘He will love me more than 
+        old Dame Gothel does’; and she said yes, and laid her hand in his. She said: 
+        ‘I will willingly go away with you, but I do not know how to get down. Bring with you a 
+        skein of silk every time that you come, and I will weave a ladder with it, and when that 
+        is ready I will descend, and you will take me on your horse.’ They agreed that until that 
+        time he should come to her every evening, for the old woman came by day. The enchantress 
+        remarked nothing of this, until once Rapunzel said to her: ‘Tell me, Dame Gothel, how it happens 
+        that you are so much heavier for me to draw up than the young king’s son—he is with me in a moment.’ 
+        ‘Ah! you wicked child,’ cried the enchantress. ‘What do I hear you say! I thought I had separated 
+        you from all the world, and yet you have deceived me!’ In her anger she clutched Rapunzel’s 
+        beautiful tresses, wrapped them twice round her left hand, seized a pair of scissors with the 
+        right, and snip, snap, they were cut off, and the lovely braids lay on the ground. And she was 
+        so pitiless that she took poor Rapunzel into a desert where she had to live in great grief and misery. <br><br>
+
+        On the same day that she cast out Rapunzel, however, the enchantress fastened the braids of hair, 
+        which she had cut off, to the hook of the window, and when the king’s son came and cried: <br><br>
+
+        ‘Rapunzel, Rapunzel,
+        Let down your hair to me.’
+        she let the hair down. The king’s son ascended, but instead of finding his dearest Rapunzel, 
+        he found the enchantress, who gazed at him with wicked and venomous looks. ‘Aha!’ she cried 
+        mockingly, ‘you would fetch your dearest, but the beautiful bird sits no longer singing in 
+        the nest; the cat has got it, and will scratch out your eyes as well. Rapunzel is lost to you; 
+        you will never see her again.’ The king’s son was beside himself with pain, and in his despair 
+        he leapt down from the tower. He escaped with his life, but the thorns into which he fell pierced 
+        his eyes. Then he wandered quite blind about the forest, ate nothing but roots and berries, 
+        and did naught but lament and weep over the loss of his dearest wife. Thus he roamed about in 
+        misery for some years, and at length came to the desert where Rapunzel, with the twins to which 
+        she had given birth, a boy and a girl, lived in wretchedness. He heard a voice, and it seemed 
+        so familiar to him that he went towards it, and when he approached, Rapunzel knew him and fell 
+        on his neck and wept. Two of her tears wetted his eyes and they grew clear again, and he could 
+        see with them as before. He led her to his kingdom where he was joyfully received, and they lived 
+        for a long time afterwards, happy and contented.
+      </p>
+    </div>
+  <div class="book-buttons">
+    <a href="#" class="btn-back">Back</a>
+  </div>
+  </div>
+  </div>
+
+  <div id="book4" class="page">
+  <header>
+    <h1>The Selfish Giant</h1>
+  </header>
+  <div class="book-read">
+    <div class="pre">
+      <p>
+        Every afternoon, as they were coming from school, the children used to go and play 
+        in the Giant's garden. It was a large lovely garden, with soft green grass. Here and 
+        there over the grass stood beautiful flowers like stars, and there were twelve peach-trees 
+        that in the spring-time broke out into delicate blossoms of pink and pearl, and in the autumn 
+        bore rich fruit. The birds sat on the trees and sang so sweetly that the children used to stop 
+        their games in order to listen to them. 'How happy we are here!' they cried to each other.
+        <br><br>
+        One day the Giant came back. He had been to visit his friend the Cornish ogre, and had 
+        stayed with him for seven years. After the seven years were over he had said all that he 
+        had to say, for his conversation was limited, and he determined to return to his own castle. 
+        When he arrived he saw the children playing in the garden. 'What are you doing here?' 
+        he cried in a very gruff voice, and the children ran away.
+        <br><br>
+        'My own garden is my own garden,' said the Giant; 'any one can understand that, and 
+        I will allow nobody to play in it but myself.' So he built a high wall all round it, and 
+        put up a notice-board.
+        <br><br>
+        TRESPASSERS WILL BE PROSECUTED
+        <br><br>
+        He was a very selfish Giant.
+        The poor children had now nowhere to play. They tried to play on the road, but the 
+        road was very dusty and full of hard stones, and they did not like it. They used to wander 
+        round the high wall when their lessons were over, and talk about the beautiful garden inside.
+        'How happy we were there,' they said to each other.
+        Then the Spring came, and all over the country there were little blossoms and little birds. 
+        Only in the garden of the Selfish Giant it was still Winter. 
+        <br><br>
+        The birds did not care to sing in it as there were no children, and the trees forgot to blossom. 
+        Once a beautiful flower put its head out from the grass, but when it saw the notice-board it was 
+        so sorry for the children that it slipped back into the ground again, and went off to sleep. 
+        The only people who were pleased were the Snow and the Frost. 'Spring has forgotten this garden,' 
+        they cried, 'so we will live here all the year round.' 
+        <br><br>
+        The Snow covered up the grass with her great white cloak, and the Frost painted all the trees silver. 
+        Then they invited the North Wind to stay with them, and he came. He was wrapped in furs, and he roared 
+        all day about the garden, and blew the chimney-pots down. 'This is a delightful spot,' he said, 
+        'we must ask the Hail on a visit.' So the Hail came. Every day for three hours he rattled on the 
+        roof of the castle till he broke most of the slates, and then he ran round and round the garden as 
+        fast as he could go. He was dressed in grey, and his breath was like ice.
+        <br><br>
+        'I cannot understand why the Spring is so late in coming,' said the Selfish Giant, as he sat at the 
+        window and looked out at his cold white garden; 'I hope there will be a change in the weather.'
+        But the Spring never came, nor the Summer. The Autumn gave golden fruit to every garden, but to the 
+        Giant's garden she gave none. 'He is too selfish,' she said. So it was always Winter there, and the 
+        North Wind, and the Hail, and the Frost, and the Snow danced about through the trees.
+        One morning the Giant was lying awake in bed when he heard some lovely music. 
+        <br><br>
+        It sounded so sweet to his ears that he thought it must be the King's musicians passing by. 
+        It was really only a little linnet singing outside his window, but it was so long since he had heard a 
+        bird sing in his garden that it seemed to him to be the most beautiful music in the world. 
+        Then the Hail stopped dancing over his head, and the North Wind ceased roaring, and a delicious 
+        perfume came to him through the open casement. 
+        <br><br>
+        'I believe the Spring has come at last,' said the Giant; and he jumped out of bed and looked out.
+        What did he see?
+        He saw a most wonderful sight. Through a little hole in the wall the children had crept in, 
+        and they were sitting in the branches of the trees. In every tree that he could see there was a 
+        little child. And the trees were so glad to have the children back again that they had covered 
+        themselves with blossoms, and were waving their arms gently above the children's heads. 
+        <br><br>
+        The birds were flying about and twittering with delight, and the flowers were looking up through 
+        the green grass and laughing. It was a lovely scene, only in one corner it was still Winter. 
+        It was the farthest corner of the garden, and in it was standing a little boy. He was so small 
+        that he could not reach up to the branches of the tree, and he was wandering all round it, crying 
+        bitterly. The poor tree was still quite covered with frost and snow, and the North Wind was blowing 
+        and roaring above it. 'Climb up! little boy,' said the Tree, and it bent its branches down as low as 
+        it could; but the little boy was too tiny.
+        And the Giant's heart melted as he looked out. 
+        <br><br>
+        'How selfish I have been!' he said; 'now I know why the Spring would not come here. I will put that 
+        poor little boy on the top of the tree, and then I will knock down the wall, and my garden shall be 
+        the children's playground for ever and ever.' He was really very sorry for what he had done.
+        So he crept downstairs and opened the front door quite softly, and went out into the garden. 
+        But when the children saw him they were so frightened that they all ran away, 
+        and the garden became Winter again. 
+        <br><br>
+        Only the little boy did not run, for his eyes were so full of tears that he died not see the 
+        Giant coming. And the Giant stole up behind him and took him gently in his hand, and put him up 
+        into the tree. And the tree broke at once into blossom, and the birds came and sang on it, and the 
+        little boy stretched out his two arms and flung them round the Giant's neck, and kissed him. 
+        <br><br>
+        And the other children, when they saw that the Giant was not wicked any longer, came running back, 
+        and with them came the Spring. 'It is your garden now, little children,' said the Giant, and he took 
+        a great axe and knocked down the wall. And when the people were gong to market at twelve o'clock they 
+        found the Giant playing with the children in the most beautiful garden they had ever seen.
+        All day long they played, and in the evening they came to the Giant to bid him good-bye.
+        <br><br>
+        'But where is your little companion?' he said: 'the boy I put into the tree.' 
+        The Giant loved him the best because he had kissed him.
+        'We don't know,' answered the children; 'he has gone away.'
+        'You must tell him to be sure and come here to-morrow,' said the Giant. But the children said 
+        that they did not know where he lived, and had never seen him before; and the Giant felt very sad.
+        <br><br>
+        Every afternoon, when school was over, the children came and played with the Giant. 
+        But the little boy whom the Giant loved was never seen again. The Giant was very kind to 
+        all the children, yet he longed for his first little friend, and often spoke of him. 
+        'How I would like to see him!' he used to say.
+        Years went over, and the Giant grew very old and feeble. He could not play about any more,
+        so he sat in a huge armchair, and watched the children at their games, and admired his garden. 
+        <br><br>
+        'I have many beautiful flowers,' he said; 'but the children are the most beautiful flowers of all.'
+        One winter morning he looked out of his window as he was dressing. He did not hate the Winter now, 
+        for he knew that it was merely the Spring asleep, and that the flowers were resting.
+        Suddenly he rubbed his eyes in wonder, and looked and looked. It certainly was a marvellous sight.
+        <br><br>
+        In the farthest corner of the garden was a tree quite covered with lovely white blossoms. 
+        Its branches were all golden, and silver fruit hung down from them, and underneath it stood the 
+        little boy he had loved.
+        Downstairs ran the Giant in great joy, and out into the garden. He hastened across the grass, 
+        and came near to the child. And when he came quite close his face grew red with anger, and he said, 
+        'Who hath dared to wound thee?' For on the palms of the child's hands were the prints of two nails, 
+        and the prints of two nails were on the little feet.
+        <br><br>
+        'Who hath dared to wound thee?' cried the Giant; 'tell me, that I may take my big sword and slay him.'
+        'Nay!' answered the child; 'but these are the wounds of Love.'
+        'Who art thou?' said the Giant, and a strange awe fell on him, and he knelt before the little child.
+        And the child smiled on the Giant, and said to him, 'You let me play once in your garden, to-day you shall 
+        come with me to my garden, which is Paradise.'
+        And when the children ran in that afternoon, they found the Giant lying dead under the tree, 
+        all covered with white blossoms.
+      </p>
+    </div>
+  <div class="book-buttons">
+    <a href="#" class="btn-back">Back</a>
+  </div>
+  </div>
+  </div>
+
+  <div id="book5" class="page">
+  <header>
+    <h1>The Nightingale and the Rose</h1>
+  </header>
+  <div class="book-read">
+    <div class="pre">
+      <p>
+        'She said that she would dance with me if I brought her red roses,' cried the young Student; 
+        'but in all my garden there is no red rose.'
+        From her nest in the holm-oak tree the Nightingale heard him,
+        and she looked out through the leaves, and wondered.
+        'No red rose in all my garden!' he cried, and his beautiful eyes filled with tears. 
+        'Ah, on what little things does happiness depend! I have read all that the wise men have 
+        written, and all the secrets of philosophy are mine, yet for want of a red rose is my life 
+        made wretched.'
+        <br><br>
+        'Here at last is a true lover,' said the Nightingale. 'Night after night have I sung of him, though I knew him not: 
+        night after night have I told his story to the stars, and now I see him. His hair is dark as the 
+        hyacinth-blossom, and his lips are red as the rose of his desire; but passion has made his lace 
+        like pale Ivory, and sorrow has set her seal upon his brow.'
+        'The Prince gives a ball to-morrow night,' murmured the young Student, 'and my love will be of the 
+        company. If I bring her a red rose she will dance with me till dawn. If I bring her a red rose, 
+        I shall
+        <br><br>
+        hold her in my arms, and she will lean her head upon my shoulder, and her hand will be clasped in 
+        mine. But there is no red rose in my garden, so I shall sit lonely, and she will pass me by. She will 
+        have no heed of me, and my heart will break.'
+        'Here indeed is the true lover,' said the Nightingale. 'What I sing of he suffers: what 
+        is joy to me, to him is pain. Surely Love is a wonderful thing. It is more precious than emeralds, 
+        and dearer than fine opals. Pearls and pomegranates cannot buy it, nor is it set forth in the market-place. 
+        it may not be purchased of the merchants, 'or can it be weighed out in the balance for gold.'
+        <br><br>
+        'The musicians will sit in their gallery,' said the young Student, 'and play upon their stringed 
+        instruments, and my love will dance to the sound of the harp and the violin. She will dance so 
+        lightly that her feet will not touch the floor, and the courtiers in their gay dresses will throng 
+        round her. But with me she will not dance, for I have no red rose to give her;' and he flung 
+        himself down on the grass, and buried his face in his hands, and wept.
+        'Why is he weeping?' asked a little Green Lizard, as he ran past him with his tail in the air.
+        'Why, indeed?' said a Butterfly, who was fluttering about after a sunbeam.
+        <br><br>
+        'Why, indeed?' whispered a Daisy to his neighbour, in a soft, low voice.
+        'He is weeping for a red rose,' said the Nightingale.
+        'For a red rose!' they cried; 'how very ridiculous!' and the little Lizard, who was something 
+        of a cynic, laughed outright.
+        But the Nightingale understood the secret of the Student's sorrow, and she sat silent in the 
+        oak-tree, and thought about the mystery of Love.
+        Suddenly she spread her brown wings for flight, and soared into the air. She passed through the 
+        grove like a shadow, and like a shadow she sailed across the garden.
+        In the centre of the grass-plot was standing a beautiful Rose-tree, and when she saw it, 
+        she flew over to it, and lit upon a spray.
+        <br><br>
+        'Give me a red rose,' she cried, 'and I will sing you my sweetest song.'
+        But the Tree shook its head.
+        'My roses are white,' it answered; 'as white as the foam of the sea, and whiter than the 
+        snow upon the mountain. But go to my brother who grows round the old sun-dial, and perhaps 
+        he will give you what you want.'
+        So the Nightingale flew over to the Rose-tree that was growing round the old sun-dial.
+        'Give me a red rose,' she cried, 'and I will sing you my sweetest song.'
+        But the Tree shook its head.
+        <br><br>
+        'My roses are yellow,' it answered; 'as yellow as the hair of the mermaiden who sits upon 
+        an amber throne, and yellower than the daffodil that blooms in the meadow before the mower 
+        comes with his scythe. But go to my brother who grows beneath the Student's window, and perhaps 
+        he will give you what you want.'
+        So the Nightingale flew over to the Rose-tree that was growing beneath the Student's window.
+        'Give me a red rose,' she cried, 'and I will sing you my sweetest song.'
+        <br><br>
+        But the Tree shook its head.
+        'My roses are red,' it answered, 'as red as the feet of the 
+        dove, and redder than the great fans of coral that wave and wave in the ocean-cavern. 
+        But the winter has chilled my veins, and the frost has nipped my buds, and the storm has 
+        broken my branches, and I shall have no roses at all this year.'
+        'One red rose is all I want,' cried the Nightingale, 'only one red rose! Is there no way 
+        by which I can get it?'
+        'There is a way,' answered the Tree; 'but it is so terrible that I dare not tell it to you.'
+        <br><br>
+        'Tell it to me,' said the Nightingale, 'I am not afraid.'
+        'If you want a red rose,' said the Tree, 'you must build it out of music by moonlight, 
+        and stain it with your own heart's-blood. You must sing to me with your breast against a thorn. 
+        All night long you must sing to me, and the thorn must pierce your heart, and your life-blood must 
+        flow into my veins, and become mine.'
+        'Death is a great price to pay for a red rose,' cried the Nightingale, 'and Life is very 
+        dear to all. It is pleasant to sit in the green wood, and to watch the Sun in his chariot of gold, 
+        and the Moon in her chariot of pearl. Sweet is the scent of the hawthorn, and sweet are the 
+        bluebells that hide in the valley, and the heather that blows on the hill. Yet Love is better 
+        than Life, and what is the heart of a bird compared to the heart of a man?'
+        <br><br>
+        So she spread her brown wings for flight, and soared into the air. She swept over the garden like 
+        a shadow, and like a shadow she sailed through the grove.
+        The young Student was still lying on the grass, where she had left him, and the tears were not 
+        yet dry in his beautiful eyes.
+        'Be happy,' cried the Nightingale, 'be happy; you shall have your red rose. I will build it 
+        out of music by moonlight, and stain it with my own heart's-blood. All that I ask of you in return 
+        is that you will be a true lover, for Love is wiser than Philosophy, though she is wise, 
+        and mightier than Power, though he is mighty. Flame-coloured are his wings, and coloured 
+        like flame is his body. His lips are sweet as honey, and his breath is like frankincense.'
+        <br><br>
+        The Student looked up from the grass, and listened, but he could not understand what the 
+        Nightingale was saying to him, for he only knew the things that are written down in books.
+        But the Oak-tree understood, and felt sad, for he was very fond of the little Nightingale 
+        who had built her nest in his branches.
+        'Sing me one last song,' he whispered; 'I shall feel very lonely when you are gone.'
+        So the Nightingale sang to the Oak-tree, and her voice was like water bubbling from a silver jar.
+        <br><br>
+        When she had finished her song the Student got lip, and pulled a note-book and a lead-pencil 
+        out of his pocket.
+        'She has form,' he said to himself, as he walked away through the grove - 'that cannot be denied 
+        to her; but has she got feeling? I am afraid not. In fact, she is like most artists; she is all 
+        style, without any sincerity. She would not sacrifice herself for others. She thinks merely of 
+        music, and everybody knows that the arts are selfish. Still, it must be admitted that she has some 
+        beautiful notes in her voice. What a pity it is that they do not mean anything, or do any practical 
+        good.' And he went into his room, and lay down on his little pallet-bed, and began to think of his l
+        ove; and, after a time, he fell asleep.
+        <br><br>
+        And when the Moon shone in the heavens the Nightingale flew to the Rose-tree, and set her breast 
+        against the thorn. All night long she sang with her breast against the thorn, and the cold crystal 
+        Moon leaned down and listened. All night long she sang, and the thorn went deeper and deeper into 
+        her breast, and her life-blood ebbed away from her.
+        She sang first of the birth of love in the heart of a boy and a girl. And on the topmost spray of 
+        the Rose-tree there blossomed a marvellous rose, petal following petal, as song followed song. 
+        Yale was it, at first, as the mist that hangs over the river - pale as the feet of the morning, 
+        and silver as the wings of the dawn. As the shadow of a rose in a mirror of silver, as the shadow 
+        of a rose in a water-pool, so was the rose that blossomed on the topmost spray of the Tree.
+        But the Tree cried to the Nightingale to press closer against the thorn. 'Press closer, little 
+        Nightingale,' cried the Tree, 'or the Day will come before the rose is finished.'
+        <br><br>
+        So the Nightingale pressed closer against the thorn, and louder and louder grew her song, 
+        for she sang of the birth of passion in the soul of a man and a maid.
+        And a delicate flush of pink came into the leaves of the rose, like the flush in the face of 
+        the bridegroom when he kisses the lips of the bride. But the thorn had not yet reached her heart, 
+        so the rose's heart remained white, for only a Nightingale's heart's-blood can crimson the heart 
+        of a rose.
+        <br><br>
+        And the Tree cried to the Nightingale to press closer against the thorn. 'Press closer, 
+        little Nightingale,' cried the Tree, 'or the Day will come before the rose is finished.'
+        So the Nightingale pressed closer against the thorn, and the thorn touched her heart, and a 
+        fierce pang of pain shot through her. Bitter, bitter was the pain, and wilder and wilder grew 
+        her song, for she sang of the Love that is perfected by Death, of the Love that dies not in the tomb.
+        <br><br>
+        And the marvellous rose became crimson, like the rose of the eastern sky. Crimson was the girdle of 
+        petals, and crimson as a ruby was the heart.
+        But the Nightingale's voice grew fainter, and her little wings began to beat, and a 
+        film came over her eyes. Fainter and fainter grew her song, and she felt something choking her 
+        in her throat.
+        <br><br>
+        Then she gave one last burst of music. The white Moon heard it, and she forgot the dawn, and 
+        lingered on in the sky. The red rose heard it, and it trembled all over with ecstasy, and opened 
+        its petals to the cold morning air. Echo bore it to her purple cavern in the hills, and woke the 
+        sleeping shepherds from their dreams. It floated through the reeds of the river, and they carried its 
+        message to the sea.
+        <br><br>
+        'Look, look!' cried the Tree, 'the rose is finished now;' but the Nightingale made no answer, 
+        for she was lying dead in the long grass, with the thorn in her heart.
+        And at noon the Student opened his window and looked out.
+        'Why, what a wonderful piece of luck! he cried; 'here is a red rose! I have never seen any rose 
+        like it in all my life. It is so beautiful that I am sure it has a long Latin name;' and he leaned 
+        down and plucked it.
+        Then he put on his hat, and ran up to the Professor's house with the rose in his hand.
+        <br><br>
+        The daughter of the Professor was sitting in the doorway winding blue silk on a reel, and her little dog was lying at her feet.
+        'You said that you would dance with me if I brought you a red rose,' cried the Student. 
+        Here is the reddest rose in all the world. You will wear it to-night next your heart, and as 
+        we dance together it will tell you how I love you.'
+        But the girl frowned.
+        'I am afraid it will not go with my dress,' she answered; 'and, besides, the Chamberlain's 
+        nephew has sent me some real jewels, and everybody knows that jewels cost far more than flowers.'
+        <br><br>
+        'Well, upon my word, you are very ungrateful,' said the Student angrily; and he threw the rose into 
+        the street, where it fell into the gutter, and a cart-wheel went over it.
+        'Ungrateful!' said the girl. 'I tell you what, you are very rude; and, after all, who are you? Only 
+        a Student. Why, I don't believe you have even got silver buckles to your shoes as the Chamberlain's 
+        nephew has;' and she got up from her chair and went into the house.
+        'What a silly thing Love is,' said the Student as he walked away. 'It is not half as useful as 
+        Logic, for it does not prove anything, and it is always telling one of things that are not going 
+        to happen, and making one believe things that are not true. In fact, it is quite unpractical, 
+        and, as in this age to be practical is everything, I shall go back to Philosophy and study 
+        Metaphysics.'
+        So he returned to his room and pulled out a great dusty book, and began to read.
+      </p>
+    </div>
+  <div class="book-buttons">
+    <a href="#" class="btn-back">Back</a>
+  </div>
+  </div>
+  </div>
+
+
+
+
+<div id="fantasy">
+
+  <header>
+    <h1>FANTASY</h1>
+  </header>
+
+  <div class="scroll-row">
+
+    <div class="book-card">
+      <img src="https://drive.google.com/thumbnail?id=125H8RtcexXYkQsvlBs6fMVsyQ6vF8c8d" alt="book1">
+      <div class="info">
+        <div class="text-group">
+          <div class="title">THE STRAW, THE COAL, AND THE BEAN</div>
+          <div class="author">by Grimms Brothers</div>
+        </div>
+        <div class="book-buttons">
+          <a href="#book1" class="btn-read">Read</a>
+          <a href="#listen1" class="btn-listen">Listen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-card">
+      <img src="https://drive.google.com/thumbnail?id=1P9Gq1o_3VjGlUFM55KvpP-yHvkjIXYym" alt="book2">
+      <div class="info">
+        <div class="text-group">
+          <div class="title">LITTLE RED-CAP<br>[LITTLE RED RIDING HOOD]</div>
+          <div class="author">By Grimms Brothers</div>
+        </div>
+        <div class="book-buttons">
+          <a href="#book2" class="btn-read">Read</a>
+          <a href="#listen2" class="btn-listen">Listen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-card">
+      <img src="https://drive.google.com/thumbnail?id=132UH-Ccs-a0kABj8IC4v2TllYtlNtCq2" alt="book3">
+      <div class="info">
+        <div class="text-group">
+          <div class="title">Rapunzel</div>
+          <div class="author">by Grimms Brothers</div>
+        </div>
+        <div class="book-buttons">
+          <a href="#book3" class="btn-read">Read</a>
+          <a href="#listen3" class="btn-listen">Listen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-card">
+      <img src="https://drive.google.com/thumbnail?id=1psYJDsLP7dM5b80-EsNDcIuDNjbVsxKM" alt="book4">
+      <div class="info">
+        <div class="text-group">
+          <div class="title">The Selfish Giant</div>
+          <div class="author">by Oscar Wilde</div>
+        </div>
+        <div class="book-buttons">
+          <a href="#book4" class="btn-read">Read</a>
+          <a href="#listen4" class="btn-listen">Listen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-card">
+      <img src="https://drive.google.com/thumbnail?id=1EKs4myQoDa4QE5MEyKZ2k38xbRgayW-H" alt="book5">
+      <div class="info">
+        <div class="text-group">
+          <div class="title">The Nightingale and the Rose</div>
+          <div class="author">by Oscar Wilde</div>
+        </div>
+        <div class="book-buttons">
+          <a href="#book5" class="btn-read">Read</a>
+          <a href="#listen5" class="btn-listen">Listen</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+
+  <footer>
+    <div class="col">
+      <strong>Name</strong>
+      Otayde, Aera Bless G.<br>
+      Aborque, Harvey C.<br>
+      Escote, Niobe Moira
+    </div>
+    <div class="col">
+      <strong>Contact</strong>
+      8089<br>
+      0809<br>
+      87089
+    </div>
+    <div class="col">
+      <strong>Position</strong>
+      CEO<br>
+      Assistant<br>
+      Software Engineer
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('mousemove', (e) => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.clientX + 'px';
+      sparkle.style.top = e.clientY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 800);
+    });
+  </script>
+
+</body>
+</html>
