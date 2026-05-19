@@ -144,24 +144,24 @@
       opacity: 0.6;
     }
 
-    @media (max-width: 1024px) {
-      h1 { font-size: 42px; padding: 14px 60px; }
-      .genre-card { width: 220px; height: 340px; }
-      .genre-card span { font-size: 18px; }
+      @media only screen and (min-width: 600px) and (max-width: 1024px) {
+      header h1 { font-size: 42px; padding: 14px 60px; }
+      .genre-grid { gap: 24px; padding: 30px 20px 50px; }
+      .genre-card { width: 200px; height: 320px; }
+      .genre-card span { font-size: 18px; bottom: 18px; }
+      footer { gap: 40px; padding: 15px 20px; margin-top: auto !important; justify-content: center; }
+      footer .col { flex: 1 1 140px; text-align: center; }
     }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 30px; padding: 12px 32px; }
+    
+    
+    @media only screen and (max-width: 599px) {
+      header h1 { font-size: 30px; padding: 12px 32px; }
       header { padding: 24px 16px 16px; }
-      .genre-grid {
-        gap: 16px;
-        padding: 20px 16px 40px;
-        min-height: calc(100vh - 100px);
-      }
+      .genre-grid { gap: 16px; padding: 20px 16px 40px; }
       .genre-card { width: 150px; height: 240px; }
       .genre-card span { font-size: 14px; bottom: 14px; }
-      footer { gap: 30px; padding: 14px 20px; }
-
+      footer { gap: 15px; padding: 15px 10px; margin-top: auto !important; flex-direction: column; text-align: center; }
+      footer .col { width: 100%; }
     }
 
       @keyframes fadeout {
@@ -244,10 +244,10 @@
       Escote, Niobe Moira
     </div>
     <div class="col">
-      <strong>Contact</strong>
-      8089<br>
-      0809<br>
-      87089
+      <strong>Course</strong>
+      BSCS 1-Y2-1<br>
+      BSCS 1-Y2-1<br>
+      BSCS 1-Y2-1
     </div>
     <div class="col">
       <strong>Position</strong>
