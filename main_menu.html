@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url('https://vey-vey.github.io/Finals/bg for main (2).png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      
+    }
+
+    header {
+      text-align: center;
+      padding: 36px 20px 24px;
+    }
+
+    header h1 {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 54px;
+      color: rgb(255, 255, 255);
+      text-shadow: 2px 3px 10px rgb(18, 19, 72);
+      text-decoration-line: none;
+      background-size: cover;
+      background-position: center;
+      padding: 16px 80px;
+      border-radius: 30px;
+      box-shadow: 0 4px 24px rgba(6, 5, 31, 0.973);
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+
+
+    header h1::before{
+      background-image: url('https://drive.google.com/thumbnail?id=1lrQHz3Z2GvGZobgPd9s_gJpTYKkKw-aK');
+      opacity: 0.8;
+      content: "";
+      position: absolute;
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 30px;
+    }
+    
+
+    .genre-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 28px;
+      padding: 40px 40px 60px;
+      flex: 1;
+      min-height: calc(100vh - 120px);
+      align-items: center;
+    }
+
+    .genre-grid a { text-decoration: none; }
+
+    .genre-card {
+      position: relative;
+      width: 260px;
+      height: 400px;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      background: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .genre-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease, filter 0.3s ease;
+    }
+
+
+
+    .genre-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 80px rgba(232, 47, 245, 0.871);
+    }
+
+    .genre-card:hover img {
+      transform: scale(1.08);
+      filter: brightness(1);
+    }
+
+    .genre-card span {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 1px 2px 6px rgba(0,0,0,0.8);
+      white-space: nowrap;
+    }
+
+    footer {
+      background: rgba(20, 20, 40, 0.85);
+      backdrop-filter: blur(6px);
+      color: #ccc;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 14px 40px;
+      margin-top: 250px;
+      flex-wrap: wrap;
+    }
+
+    footer .col { font-size: 12px; line-height: 1.7; }
+
+    footer .col strong {
+      display: block;
+      color: white;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      opacity: 0.6;
+    }
+
+
+
+
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+  header h1 { font-size: 42px; padding: 14px 60px; }
+  .genre-grid { gap: 24px; padding: 30px 20px 50px; }
+  .genre-card { width: 200px; height: 320px; }
+  .genre-card span { font-size: 18px; bottom: 18px; }
+  footer { gap: 40px; padding: 15px 20px; margin-top: auto !important; justify-content: center; }
+  footer .col { flex: 1 1 140px; text-align: center; }
+}
+
+
+@media only screen and (max-width: 599px) {
+  header h1 { font-size: 30px; padding: 12px 32px; }
+  header { padding: 24px 16px 16px; }
+  .genre-grid { gap: 16px; padding: 20px 16px 40px; }
+  .genre-card { width: 150px; height: 240px; }
+  .genre-card span { font-size: 14px; bottom: 14px; }
+  footer { gap: 15px; padding: 15px 10px; margin-top: auto !important; flex-direction: column; text-align: center; }
+  footer .col { width: 100%; }
+}
+
+      @keyframes fadeout {
+      0%   { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0); }
+      }
+
+    .sparkle {
+      position: fixed;
+      width: 15px;
+      height: 15px;
+      background: rgba(226, 195, 19, 0.759);
+      clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+      pointer-events: none;
+      animation: magicBurst 0.5s linear forwards;
+      z-index: 9999;
+      }
+
+    @keyframes magicBurst {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;   
+}
+    20% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+      }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <title>NookBook</title>
+    <h1>NookBook</h1>
+  </header>
+
+  <div class="genre-grid">
+
+    <a href="https://vey-vey.github.io/Finals/hor_genre.html">
+      <button class="genre-card">
+        <img src="https://drive.google.com/thumbnail?id=1H0Oqs8zGdORYKXT_FHN0c0yOvxuot3Fr" alt="Horror">
+        <span>Horror</span>
+      </button>
+    </a>
+
+    <a href="https://vey-vey.github.io/Finals/fantasy_genre.html">
+      <button class="genre-card">
+        <img src="https://drive.google.com/thumbnail?id=1BHLdFyK6GGrKPF8Nt74PgaY-h8EVC0MP" alt="Fantasy">
+        <span>Fantasy</span>
+      </button>
+    </a>
+
+    <a href="https://vey-vey.github.io/Finals/fab_gen.html">
+      <button class="genre-card">
+        <img src="https://drive.google.com/thumbnail?id=16VpCKdIp4HhgSC-8Y-iqD8nBdpdUkMUR" alt="Fables">
+        <span>Fables</span>
+      </button>
+    </a>
+
+    <a href="https://vey-vey.github.io/Finals/cla_gen.html">
+      <button class="genre-card">
+        <img src="https://drive.google.com/thumbnail?id=1FaN5X8o6CZbfzhfVDLg-6zLXlZmjT5wT" alt="Classics">
+        <span>Classics</span>
+      </button>
+    </a>
+
+  </div>
+
+  <footer>
+    <div class="col">
+      <strong>Name</strong>
+      Otayde, Aera Bless G.<br>
+      Aborque, Harvey C.<br>
+      Escote, Niobe Moira
+    </div>
+    <div class="col">
+      <strong>COURSE</strong>
+      BSCS 1-Y2-1<br>
+      BSCS 1-Y2-1<br>
+      BSCS 1-Y2-1
+    </div>
+    <div class="col">
+      <strong>Position</strong>
+      Web Designer and Documentation<br>
+      Programmer<br>
+      Web Designer
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('mousemove', (e) => {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = e.clientX + 'px';
+    sparkle.style.top = e.clientY + 'px';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 800);
+    });
+  </script>
+
+</body>
+</html>
